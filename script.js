@@ -59,7 +59,7 @@
       observer.observe(section);
     });
 
-    // Smooth scroll for anchor links
+    // Smooth scroll for anchor links (uses scroll-margin-top in CSS)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
@@ -67,11 +67,9 @@
           e.preventDefault();
           const target = document.querySelector(href);
           if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-              top: offsetTop,
-              behavior: 'smooth'
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Update the URL hash without causing an immediate jump
+            history.pushState(null, '', href);
           }
         }
       });
